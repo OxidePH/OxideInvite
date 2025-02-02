@@ -6,6 +6,7 @@
 			constrained: 'max-w-7xl',
 		}"
 	>
+		<UNotifications />
 		<slot />
 	</UContainer>
 </template>
