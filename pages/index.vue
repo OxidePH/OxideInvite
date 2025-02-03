@@ -13,7 +13,7 @@
 
 				<UAccordion :items="items" />
 
-				<UContainer class="p-4 justify-center">
+				<UContainer class="p-4 justify-center" v-if="!inviteSent">
 					<UAlert
 						description="If you agree to the terms & conditions, please enter your email
 						address"
@@ -51,6 +51,14 @@
 						</UButton>
 					</div>
 				</UContainer>
+				<UContainer class="p-4 justify-center" v-else>
+					<UAlert
+						icon="i-heroicons-envelope"
+						description="Invitation sent successfully!"
+						title="Alert!"
+						color="primary"
+					/>
+				</UContainer>
 
 				<template #footer>
 					<code>Oxide PH @ {{ new Date().getFullYear() }}</code>
@@ -62,7 +70,7 @@
 
 <script lang="ts" setup>
 import { z } from "zod";
-import items from "@/components/texts/terms";
+import items from "@/contents/terms";
 
 definePageMeta({
 	layout: "default",
@@ -75,8 +83,7 @@ const submitLabel = ref("Submit Application");
 const email = ref("");
 const emailError = ref<string | null>(null);
 const emailSchema = z.string().email("Invalid email format");
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const inviteSent = ref(false);
 
 const validateEmail = () => {
 	const result = emailSchema.safeParse(email.value);
@@ -100,6 +107,7 @@ const submitHandle = async () => {
 		});
 
 		if (response.success) {
+			inviteSent.value = !inviteSent.value;
 			toast.add({ title: "Invitation sent successfully!" });
 		} else {
 			toast.add({ title: response.message, color: "red" });
