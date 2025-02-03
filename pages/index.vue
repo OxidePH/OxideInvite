@@ -76,6 +76,7 @@ definePageMeta({
 	layout: "default",
 });
 
+const config = useRuntimeConfig();
 const toast = useToast();
 const joinModal = ref(true);
 const submitButton = ref(false);
@@ -101,7 +102,7 @@ const submitHandle = async () => {
 	submitLabel.value = "Processing...";
 
 	try {
-		const response = await $fetch(`${process.env.API_BASE_URL}/api/invite`, {
+		const response = await $fetch(`${config.public.apiBaseUrl}/api/invite`, {
 			method: "POST",
 			body: { email: email.value },
 		});
