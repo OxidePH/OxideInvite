@@ -101,7 +101,7 @@ const submitHandle = async () => {
 	submitLabel.value = "Processing...";
 
 	try {
-		const response = await $fetch("/api/invite", {
+		const response = await $fetch(`${process.env.API_BASE_URL}/api/invite`, {
 			method: "POST",
 			body: { email: email.value },
 		});
